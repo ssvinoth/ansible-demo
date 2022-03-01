@@ -1,0 +1,11 @@
+fields:
+  - id: scp_server_user
+    type: string
+    label: Username
+  - id: scp_server_password
+    type: string
+    label: Password
+    secret: true
+required:
+  - scp_server_user
+  - scp_server_password

@@ -1,0 +1,3 @@
+extra_vars:
+  scp_server_user: '{{scp_server_user}}'
+  scp_server_password: '{{scp_server_password}}'

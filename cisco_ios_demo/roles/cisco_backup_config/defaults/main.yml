@@ -1,0 +1,8 @@
+---
+# defaults file for cisco_backup_config
+
+#if provided , include the trailing / eg., /bkp_folder/
+backup_base_folder_path: 'backup_configs/' 
+backup_file_prefix: 'run-cfg-'
+scp_server: 192.168.56.102
+scp_server_user: 'bkp_user'
