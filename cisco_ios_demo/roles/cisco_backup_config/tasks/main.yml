@@ -24,3 +24,9 @@
               - "{{ scp_server_user }}"
               - "{{backup_base_folder_path}}{{ inventory_hostname }}/{{backup_file_prefix}}{{hostvars['localhost'].datetime}}.cfg"
               - "{{ scp_server_password }}"
+
+    - name: Print backup file Name
+      debug:
+        msg: 
+          - "backup file : {{backup_file_prefix}}{{hostvars['localhost'].datetime}}.cfg"
+      run_once: true 

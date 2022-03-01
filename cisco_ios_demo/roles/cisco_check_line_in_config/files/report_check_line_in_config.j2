@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style> 
+            * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            body {
+            background:#353a40;
+            }
+
+            h1,h2,h3,h3,h4,h5,h6 {
+            color: white;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+            }
+
+            table {
+            border-collapse: separate;
+            background:#fff;
+            @include border-radius(5px);
+            margin:50px auto;
+            @include box-shadow(0px 0px 5px rgba(0,0,0,0.3));
+            /* border: 1px solid black; */
+            }
+
+            thead {
+            @include border-radius(5px);
+            }
+
+            thead th {
+            font-family: 'Patua One', monospace;
+            font-size:16px;
+            font-weight:400;
+            color:#fff;
+            @include text-shadow(1px 1px 0px rgba(0,0,0,0.5));
+            text-align:left;
+            padding:20px;
+            border-top:1px solid #858d99;
+            background: #353a40;
+            /* border: 1px solid black; */
+
+            &:first-child {
+            @include border-top-left-radius(5px);
+            }
+
+            &:last-child {
+                @include border-top-right-radius(5px);
+            }
+            }
+
+            tbody tr td {
+            font-family: 'Open Sans', sans-serif;
+            font-weight:400;
+            color:#5f6062;
+            font-size:13px;
+            padding:20px 20px 20px 20px;
+            border-bottom:1px solid #e0e0e0;
+            white-space:pre;
+            border: 1px solid black;
+            }
+
+
+            tbody tr:nth-child(2n) {
+            background:#f0f3f5;
+            } 
+
+            tbody tr:last-child td {
+            border-bottom:none;
+            &:first-child {
+                @include border-bottom-left-radius(5px);
+            }
+            &:last-child {
+                @include border-bottom-right-radius(5px);
+            }
+            }
+
+            span.highlight {
+                background-color: yellow;
+            }
+
+        .error {
+            /* bg red with blue text*/
+            background:#f6c9cb;
+            color:#003399; 
+        }
+
+        .warn {
+            /* bg yellow*/
+            background:#F4F463;
+        }
+
+        .success {
+            /* bg green*/
+            background:#C1F4D8; 
+        }
+        .report_title {
+            background: white; 
+            color: #353a40; 
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+    <table id="serviceTable">
+        <thead>
+            <!-- Report Heading Content-->
+            <tr>
+                <th colspan="1"><h2>Report Name:</h2></th>
+                <th colspan="3"><h2>Check "{{ service_cfg_line }}" presence in config</h2></th>
+            </tr>
+            <tr>
+                <th colspan="1"><h3>Generated On:</h3></th>
+                <th colspan="3"><h3> {{ hostvars['localhost'].datetime[0:10] }} {{ hostvars['localhost'].datetime[11:] | replace('-',':') }}</h3></th>
+            </tr>
+            <tr>
+                <th colspan="1"><h3>Search Input:</h3></th>
+                <th colspan="3"><h3>{{ service_cfg_line }}</h3></th>
+            </tr>
+            <tr></tr>
+            <tr>
+                <th colspan="4" class="report_title"><h1 class="report_title">Report</h1></th>
+            </tr>
+        
+            <!-- Report table heading-->
+            <tr>
+                <th>Hostname</th>
+                <th>Management IP</th>
+                <th>{{ service_cfg_line }}</th>
+                <th>Config lines found</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for network_switch in ansible_play_hosts_all %}
+                    {% if network_switch in ansible_play_hosts %}
+                        {# All active hosts #}
+                        <!-- Column 1 -->
+                        <td>{{hostvars[network_switch]['ansible_net_hostname']}}</td>
+
+                        <!-- Column 2 -->
+                        <td>{{hostvars[network_switch]['ansible_host']}}</td>
+
+                        <!-- Column 3 -->
+                        {% if hostvars[network_switch]['line_in_cfg'] is defined %}
+                                <td class="warn">Enabled<sup>#</sup></td>
+                        {% else %}
+                                <td class="success">Disabled<sup>*</sup></td>
+                        {% endif %}
+
+                        <!-- Column 4 -->
+                            <td>
+                                {% for lineitem in hostvars[network_switch]['config_lines_found'] %}
+                                    {{ lineitem }}
+                                {% endfor %} 
+                            </td>
+
+                    {% else %}
+                        {# All inactive/failed hosts #}
+                            <td class="error">{{hostvars[network_switch]['inventory_hostname']}}</td>
+                            <td class="error">Error: Not Collected<sup>^</sup></td>
+                            <td class="error">Error: Not Collected<sup>^</sup></td>
+                            <td class="error">Error: Not Collected<sup>^</sup></td>
+                            <td class="error">Error: Not Collected<sup>^</sup></td>
+                        
+                    {% endif %}
+                {% endfor %}
+            </tr>  
+        </tbody>
+    </table>
+    <h5><sup>#</sup> Enabled: Exact {{ service_cfg_line }} is present </h5>
+    <h5><sup>*</sup> Disabled: Config has "no {{ service_cfg_line }}" line OR the "{{ service_cfg_line }}"is absent.</h5>
+    <h5><sup>^</sup> Not Collected: Node is unreachable or Error occured while checking the config lines</h5>
+</body>
+</html>

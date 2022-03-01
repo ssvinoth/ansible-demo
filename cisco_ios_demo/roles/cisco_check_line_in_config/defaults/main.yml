@@ -1,0 +1,6 @@
+---
+# defaults file for cisco_check_line_in_config
+report_base_folder_path: '/opt/ansible/reports/service_reports/' 
+report_file_prefix: 'service_report_'
+report_server: localhost
+service_cfg_line: 'ip bootp server'
