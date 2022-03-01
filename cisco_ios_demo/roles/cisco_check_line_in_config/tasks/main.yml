@@ -1,0 +1,51 @@
+---
+# tasks file for cisco_check_line_in_config
+    # default EE does not have timezone files hence using +8 hours
+    - name: Create Time Stamp in SGT Timezone
+      set_fact:
+        datetime: "{{ lookup('pipe', datecmd) }}"
+      delegate_to: localhost
+      delegate_facts: true
+      run_once: true
+      vars:
+        datecmd: "date -d '+8 hour' +%Y-%m-%d-%H-%M"
+
+    - name: Gather IOS facts
+      cisco.ios.ios_facts:
+      register: all_facts
+
+    - name: 'Get all config using "show run all"'
+      cisco.ios.ios_command:
+        commands:
+          - show run all
+      register: sh_run_all_output
+    
+    # This gets all config lines containing <config line to check>. 
+    # This will include lines starting with 'no <config line to check> and lines having <config line to check> anywhere in it. 
+    - name: 'Fetch all config with "{{ service_cfg_line }}" in it'
+      set_fact:
+        config_lines_found: '{{ sh_run_all_output.stdout_lines[0] | select("match",line_regex) | list }}'
+      vars:
+        line_regex: '^.*{{ service_cfg_line }}.*$'
+
+    # This checks if exact config line is there (can have space at the begining and at the end).
+    # It wont count lines starting with 'no <config line to check>'
+    - name: 'Check if line "{{ service_cfg_line }}" is in show run all output'
+      set_fact:
+        line_in_cfg: true
+      when: sh_run_all_output.stdout_lines[0] | select("match",line_regex) | list | length > 0
+      vars:
+        line_regex: '^[\s]?{{ service_cfg_line }}[\s]?$'
+
+    - name: Create service HTML report
+      template:
+        src: report_check_line_in_config.j2
+        dest: "{{ report_base_folder_path }}{{ report_file_prefix }}{{ hostvars['localhost'].datetime }}.html"
+      delegate_to: '{{report_server}}'
+      run_once: true
+
+    - name: Print generated report file Name
+      debug:
+        msg: 
+          - "Report generated : {{ report_file_prefix }}{{ hostvars['localhost'].datetime }}.html"
+      run_once: true 
