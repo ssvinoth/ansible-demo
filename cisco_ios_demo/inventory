@@ -1,0 +1,8 @@
+[cisco_local]
+rtrlocal1 ansible_host=192.168.56.120
+
+[cisco_local:vars]
+ansible_connection=network_cli
+ansible_user=admin
+ansible_network_os=ios
+desired_os_version='17.03.04'

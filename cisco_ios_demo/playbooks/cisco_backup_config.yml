@@ -1,0 +1,8 @@
+---
+- name: Backup Cisco Switch/Router config to SCP server
+  hosts: cisco_local
+  gather_facts: no
+
+  roles:
+    - cisco_backup_config
+
