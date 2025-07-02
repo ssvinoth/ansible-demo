@@ -1,0 +1,11 @@
+---
+- name: Demo Linux Test Playbook
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Display IP routes
+      debug:
+        var: ansible_facts
+    - name: print default ipv4 listen_address
+      debug:
+        msg: "{{ ansible_facts.default_ipv4.address }}"
