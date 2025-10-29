@@ -1,0 +1,22 @@
+---
+- name: Listen webhook POSTs from webhook
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+
+  rules:
+    - name: Dump event
+      condition: event.payload is defined 
+      actions:
+#         - print_event:
+#             pretty: true
+#         - debug:
+#             msg: "EVENT_RCVD: {{ event }}"
+        - run_job_template:
+            name: EDA_PAYLOAD_DUMP_JT
+            organization: Default
+            job_args:
+              extra_vars:
+                event_payload: "{{ event.payload }}"

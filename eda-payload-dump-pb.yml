@@ -1,0 +1,11 @@
+---
+- name: test eda
+  hosts: localhost
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Lets dump the event
+      ansible.builtin.debug:
+        msg: 
+          - "{{ ansible_eda }}"
+          - "{{ event_payload | to_json }}"
