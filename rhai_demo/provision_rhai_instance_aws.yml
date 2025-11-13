@@ -4,7 +4,7 @@
   gather_facts: false
   vars:
     rhelai_aws_instance_type: g6.2xlarge  # AWS instance type out of g6 family
-    rhelai_aws_rhelai_ami: '/aws/service/marketplace/prod-usfzkgvxvt65w/rhel-ai-1.5'  # AMI for RHEL AI on AWS
+    rhelai_aws_rhelai_ami: 'ami-071f0b79c29feaa2a'  # AMI for RHEL AI on AWS
     rhelai_aws_resource_name: "vk_rhelai_1"  # Names your EC2 instance
     rhelai_aws_aws_region: us-east-2
     rhelai_aws_vpc_cidr: "10.0.0.0/16"
