@@ -10,7 +10,7 @@
     rhelai_aws_vpc_cidr: "10.0.0.0/16"
     rhelai_aws_subnet_cidr: "10.0.1.0/24"
     rhelai_aws_create_eip: true  # Set to true to create a new Elastic IP
-    rhelai_aws_key_name: "vk-rhelai-ssh-key"
+    #rhelai_aws_key_name: "vk-rhelai-ssh-key"
     rhelai_aws_key_material: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDArxrjPfUPJFHKeD+r6qW+KbJ2IXaErrEqmewm2JqoXlgelQkMIJ/8UsvGsaw3ovzN7nczhiixHGPRQ5YrfHU59Hu56QZUQmqmz4CasmpwoGq8MKG7bKlEnqv1vC7tWob9rkOYigljTOpGGHnWjzx8Jwy3aYJmLnEVAofiwlDRDcovYWqwGpCw+X+gT5J0N+2MzT3bFv7kEjTj0ToIOaOLoR60c9U+I1MT8m+7hHkeAC4bvkDAzUu9UjmyZwPzR6ECsztLWGnNTa4fEhKKSfBR/eeGfrNYasq2jh7ewjEjoZUDTZqnCL2kdkrKKBRSNsXLddjj8XmLu1WZdX6wlFjKmUYXcDQAiKbeVRZwz3Nl8E0g1MUYtXZxGJCDnGI2WmFXLtDdPsYrD4OmbcVEesDfF2kOKVNlOHp1v2cuKAsAKhFY0s491woz98Nzg8WS6hGQkOZ781KLEeoyCiPEUeXJS7Za3dro5LTwRhhsgSH5ntFCozGOxASSLvG309pkmZqMsXVNsowl5FdUB2Ub6Ykj4eMu+XqU3z/S4OQZJZDbW5aFApEYRC4+52caLfXupaJrU26v4qdDDHpkmJINM6nW5P5+jRGwAsKUh1nXK3+SGJ0Qc/ORSshee+iwP83bWRTWScjV07zD0vFaxk7i7kLbEm95ewUplm/I9otGKVrt1w==" 
   tasks:
     - name: Orchestrate
