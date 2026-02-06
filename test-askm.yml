@@ -16,6 +16,10 @@
       debug:
         var: full_secret
 
+    - name: get all env variables
+      shell: env
+      register: env_vars
+
     - name: Debug the full value via UI
       debug:
-        var: ansible_user_password
+        var: env_vars
