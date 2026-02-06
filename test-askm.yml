@@ -1,0 +1,12 @@
+---
+- name: Test fetching a specific key from AWS Secrets Manager
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Fetch specific key from AWS Secrets Manager
+      set_fact:
+        client_id: "{{ lookup('amazon.aws.secretsmanager_secret', 'test/aap/vkapi.vk_api_client_id', nested=true) }}"
+
+    - name: Display the fetched ID
+      debug:
+        var: client_id
