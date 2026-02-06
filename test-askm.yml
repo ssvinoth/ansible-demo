@@ -6,7 +6,16 @@
     - name: Fetch specific key from AWS Secrets Manager
       set_fact:
         client_id: "{{ lookup('amazon.aws.secretsmanager_secret', 'test/aap/vkapi.vk_api_client_id', region='ap-southeast-2', nested=true) }}"
+        full_secret: "{{ lookup('amazon.aws.secretsmanager_secret', 'test/aap/vkapi', region='ap-southeast-2') }}"
 
     - name: Display the fetched ID
       debug:
         var: client_id
+
+    - name: Debug the full value via lookup
+      debug:
+        var: full_secret
+
+    - name: Debug the full value via UI
+      debug:
+        var: ansible_password
