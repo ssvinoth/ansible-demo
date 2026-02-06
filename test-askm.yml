@@ -18,4 +18,4 @@
 
     - name: Debug the full value via UI
       debug:
-        var: ansible_password
+        var: ansible_user_password
